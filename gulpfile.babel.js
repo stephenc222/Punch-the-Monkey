@@ -20,9 +20,10 @@ const log = util.log;
 const env = process.env.NODE_ENV;
 const PORT = process.env.PORT || 7777;
 const BUILD_DIR = 'build';
-const PUBLIC_HTML_DIR = 'public_html';
+const PUBLIC_DIR = 'public'; // changed PUBLIC_HTML to just PUBLIC
 const DIST_DIR = 'dist';
 
+// TODO add argument to watch for 
 function copyStatic(sourceDir, destDir) {
   return src(sourceDir).pipe(changed(destDir)).pipe(dest(destDir)).pipe(size({title: 'static'}));
 }
@@ -57,10 +58,10 @@ function buildStaticDeployablePackage(cb) {
 }
 
 task('dist:clean', cb => rimraf(DIST_DIR, cb));
-task('dist:static', () => copyStatic([`${PUBLIC_HTML_DIR}/**/*`], DIST_DIR));
+task('dist:static', () => copyStatic([`${PUBLIC_DIR}/**/*`], DIST_DIR));
 task('dist:build', ['dist:static'], cb => buildStaticDeployablePackage(cb));
-task('serve:static', () => copyStatic([`${PUBLIC_HTML_DIR}/**/*`], BUILD_DIR));
-task('serve:watch', () => watch(`${PUBLIC_HTML_DIR}/**`, ['serve:static']));
+task('serve:static', () => copyStatic([`${PUBLIC_DIR}/**/*`], BUILD_DIR));
+task('serve:watch', () => watch(`${PUBLIC_DIR}/**`, ['serve:static']));
 task('serve:start', ['serve:static', 'serve:watch'], () => devServer());
 task('clean', cb => rimraf(BUILD_DIR, cb));
 task('dist', sequence('dist:clean', 'dist:build'));
