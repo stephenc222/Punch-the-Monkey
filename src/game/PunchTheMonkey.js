@@ -16,6 +16,8 @@ export class PunchTheMonkey {
 
   _create() {
     const { ctx, canvas } = this;
+    const chimp_base = new Image();
+    chimp_base.src = './chimp_base.png';
 
     const chimp = {
       speed: 300,
@@ -23,7 +25,9 @@ export class PunchTheMonkey {
       y: canvas.height * 0.5,
       vx: 1,
       vy: -1,
+      // TODO color prop is temporary, just to help with sprite alignment
       color: 'yellow',
+      image: chimp_base,
       radius: 32,
       
       reset() {
@@ -38,7 +42,10 @@ export class PunchTheMonkey {
         if (chimp.y < chimp.radius || chimp.y + chimp.radius > canvas.height) {
           chimp.vy = -chimp.vy;
         }
-      }
+      },
+      
+      // TODO add 'punched' click event
+      punched(){}
     };
 
     chimp.reset();
@@ -57,7 +64,9 @@ export class PunchTheMonkey {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.translate(chimp.x - chimp.radius, chimp.y - chimp.radius);
-      ctx.fillStyle = chimp.color;
+      ctx.fillStyle = chimp.color; // testing png alignment
+      // TODO need to resuze chimp -much- smaller, better align it to the center of the chimp object
+      ctx.drawImage(chimp.image, 0, 0); //TESTING
       ctx.beginPath();
       ctx.arc(chimp.radius, chimp.radius, chimp.radius, 0, 2 * Math.PI);
       ctx.fill();
