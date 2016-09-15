@@ -1,12 +1,12 @@
 
-export class BounceDemo {
+export class PunchTheMonkey {
   constructor() {
     this._init();
     this._create();
   }
 
   _init() {
-    document.title = 'Bouncing Ball Demo';
+    document.title = 'Punch the Monkey';
     this.canvas = document.createElement('canvas');
     this.canvas.width = 640;
     this.canvas.height = 480;
@@ -17,7 +17,7 @@ export class BounceDemo {
   _create() {
     const { ctx, canvas } = this;
 
-    const ball = {
+    const chimp = {
       speed: 300,
       x: canvas.width * 0.5,
       y: canvas.height * 0.5,
@@ -27,39 +27,39 @@ export class BounceDemo {
       radius: 32,
       
       reset() {
-        ball.vx = -1 + Math.random() * 1;
-        ball.vy = -1 + Math.random() * 1;
+        chimp.vx = -1 + Math.random() * 1;
+        chimp.vy = -1 + Math.random() * 1;
       },
 
-      bounce() {
-        if (ball.x < ball.radius || ball.x + ball.radius > canvas.width) {
-          ball.vx = -ball.vx;
+      move() {
+        if (chimp.x < chimp.radius || chimp.x + chimp.radius > canvas.width) {
+          chimp.vx = -chimp.vx;
         }
-        if (ball.y < ball.radius || ball.y + ball.radius > canvas.height) {
-          ball.vy = -ball.vy;
+        if (chimp.y < chimp.radius || chimp.y + chimp.radius > canvas.height) {
+          chimp.vy = -chimp.vy;
         }
       }
     };
 
-    ball.reset();
+    chimp.reset();
 
     const update = deltaTime => {
-      if (ball.vx === 0 && ball.vy === 0) {
-        ball.reset();
+      if (chimp.vx === 0 && chimp.vy === 0) {
+        chimp.reset();
       }
-      ball.x += ball.vx * deltaTime * ball.speed;
-      ball.y += ball.vy * deltaTime * ball.speed;
-      ball.bounce();
+      chimp.x += chimp.vx * deltaTime * chimp.speed;
+      chimp.y += chimp.vy * deltaTime * chimp.speed;
+      chimp.move();
     };
 
     const render = () => {
-      ctx.fillStyle = 'cornflowerblue';
+      ctx.fillStyle = 'lightgreen';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.save();
-      ctx.translate(ball.x - ball.radius, ball.y - ball.radius);
-      ctx.fillStyle = ball.color;
+      ctx.translate(chimp.x - chimp.radius, chimp.y - chimp.radius);
+      ctx.fillStyle = chimp.color;
       ctx.beginPath();
-      ctx.arc(ball.radius, ball.radius, ball.radius, 0, 2 * Math.PI);
+      ctx.arc(chimp.radius, chimp.radius, chimp.radius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.restore();
     };
