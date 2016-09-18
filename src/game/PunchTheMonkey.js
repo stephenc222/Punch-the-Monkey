@@ -44,10 +44,17 @@ export class PunchTheMonkey {
         }
       },
       
-      // TODO add 'punched' click event
-      punched(){}
+      // TODO adjust 'punched' click event to compare event.x with chimp.x and 
+      // event.y and chimp.y
+      punched(){
+        canvas.addEventListener('click', (event) => {
+          event ? alert('chimp object x = '+ chimp.x + '\n' + 'chimp object y =' + chimp.y + '\n' +
+                        'event object x = '+ event.x + '\n' + 'event object y =' + event.y)
+          : null;
+        });
+      }
     };
-
+    chimp.punched();
     chimp.reset();
 
     const update = deltaTime => {
@@ -65,9 +72,11 @@ export class PunchTheMonkey {
       ctx.save();
       ctx.translate(chimp.x - chimp.radius, chimp.y - chimp.radius);
       // TODO need to resuze chimp -much- smaller, better align it to the center of the chimp object
+      ctx.fillStyle = chimp.color;
       ctx.drawImage(chimp.image, 0, 0);
       ctx.beginPath();
       ctx.arc(chimp.radius, chimp.radius, chimp.radius, 0, 2 * Math.PI);
+      //ctx.fill(); //uncomment to get the yellow ball back
       ctx.restore();
     };
 
