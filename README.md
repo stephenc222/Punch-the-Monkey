@@ -1,26 +1,42 @@
-# Barebones
-ECMAScript2015 (ES6) HTML5 Barebones Project Template
+Punch the Monkey Game
+=====================
 
-## What is this?
-This project may be cloned to quickly get up and running with modern web game development.
+## Here's what you need:
 
-## What is included?
-+ Webpack 1.x powered bundling of ES6 modules via Babel 6
-+ Gulp powered build system with asset watching and easy distribution task
-+ DOMContentLoaded bootstrap index.js file to get you started
-+ Bonus simple bounding ball canvas demo which can be used to start your own games.
 
-## Can I use this commercially?
-I, Richard Marks, hereby place this project under the MIT license.
-So yes, you can use it commercially, provided you follow the license details.
 
-## How do I use this?
-+ clone this project to your local machine, or fork it in github to your own account, and clone that.
-+ make sure you are running NodeJS version 5.4.1 or higher and npm version 3.x
-+ use `npm install` to install the prerequisites.
-+ use `npm start` to kick off the webpack-dev-server which will be listening on http://localhost:7777
-+ open your browser to that URL above and go have fun.
+1. an image of a monkey
 
-## I have a question
-Sure, just post an issue on this project and I will get back to you asap.
+
+
+2. an image of a fist
+
+
+
+3. your mouse cursor moves the fist on the screen
+
+
+
+4. the monkey moves around the screen at random
+
+
+
+5. when you click on the monkey, it spins around for a second, and you get a point, and the monkey now moves at a faster speed.
+
+
+
+6. when you click off the monkey, the monkey jumps up and down and you lose the game.
+
+
+
+7. get ten points to win the game.
+
+use HTMLCanvasElement and CanvasRenderingContext2D apis to get the job done
+a few bonuses: preloading images, audio, independent title, play, win, lose, and credits screens.
+
+https://gist.github.com/RichardMarks/9bf3adae789b02fbd2fe264b8a4d1ae6
+
+
+
+https://jsfiddle.net/RMarks/dqj2mz43/
 
