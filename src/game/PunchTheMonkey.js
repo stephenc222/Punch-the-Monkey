@@ -4,6 +4,7 @@ export class PunchTheMonkey {
     this._init();
     this._create();
   }
+  
 
   _init() {
     document.title = 'Punch the Monkey';
@@ -12,12 +13,20 @@ export class PunchTheMonkey {
     this.canvas.height = 480; // 480 orig
     document.body.insertBefore(this.canvas, document.body.firstChild);
     this.ctx = this.canvas.getContext('2d');
+    // adding player data here
+    
   }
 
   _create() {
     const { ctx, canvas } = this;
     const chimp_base = new Image();
     chimp_base.src = './chimp_base.1.png';
+    
+    const player_data = {
+      'score': 0,
+      'lives': 3
+    };
+    
 
     const chimp = {
       speed: 300,
@@ -44,13 +53,31 @@ export class PunchTheMonkey {
         }
       },
       
-      // TODO adjust 'punched' click event to compare event.x with chimp.x and 
-      // event.y and chimp.y
+      // TODO final code to write for this event handler --> go to 'lose' when lives === 0 and go to
+      // 'win' when score === 10
       punched(){
         canvas.addEventListener('click', (event) => {
-          event ? alert('chimp object x = '+ chimp.x + '\n' + 'chimp object y =' + chimp.y + '\n' +
-                        'event object x = '+ event.x + '\n' + 'event object y =' + event.y)
-          : null;
+          // here is logic to determine if player has scored a hit, or if missed the chimp
+          if(event){
+            if ((chimp.x+chimp.radius) > event.x && (chimp.x - chimp.radius) < event.x) {
+              if ((chimp.y+chimp.radius) > event.y && (chimp.y - chimp.radius) < event.y) {
+                alert('ouch!');
+                player_data.score += 1;
+                // for testing of score change
+                window.console.log('score: ' + player_data.score);
+              }
+            } else {
+              alert('You lost a life, better be more careful!');
+              player_data.lives -= 1;
+              // for testing of lives change
+              window.console.log('lives: ' + player_data.lives);
+            }
+            
+          }
+          
+          // event ? window.console.log('chimp object x = '+ chimp.x + '\n' + 'chimp object y =' + chimp.y + '\n' +
+          //               'event object x = '+ event.x + '\n' + 'event object y =' + event.y)
+          // : null;
         });
       }
     };
@@ -76,7 +103,7 @@ export class PunchTheMonkey {
       ctx.drawImage(chimp.image, 0, 0);
       ctx.beginPath();
       ctx.arc(chimp.radius, chimp.radius, chimp.radius, 0, 2 * Math.PI);
-      //ctx.fill(); //uncomment to get the yellow ball back
+      ctx.fill(); //uncomment to get the yellow ball back
       ctx.restore();
     };
 
