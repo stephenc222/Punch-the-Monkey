@@ -53,6 +53,18 @@ export class PunchTheMonkey {
         }
       },
       
+      spinOnHit(){
+        //TODO add 'spin' animation when player 'punches', (clicks) on monkey
+      },
+      
+      jumpOnMiss(){
+        // TODO add monkey jump 'anaimation' when player misses the monkey on click
+        // also needs to watch for if y < radius, then different animation
+        
+        // just a start
+        chimp.y = chimp.y - 100;
+      },
+      
       // TODO final code to write for this event handler --> go to 'lose' when lives === 0 and go to
       // 'win' when score === 10
       punched(){
@@ -63,12 +75,14 @@ export class PunchTheMonkey {
               if ((chimp.y+chimp.radius) > event.y && (chimp.y - chimp.radius) < event.y) {
                 alert('ouch!');
                 player_data.score += 1;
+                chimp.spinOnHit();
                 // for testing of score change
                 window.console.log('score: ' + player_data.score);
               }
             } else {
               alert('You lost a life, better be more careful!');
               player_data.lives -= 1;
+              chimp.jumpOnMiss();
               // for testing of lives change
               window.console.log('lives: ' + player_data.lives);
             }
@@ -103,7 +117,7 @@ export class PunchTheMonkey {
       ctx.drawImage(chimp.image, 0, 0);
       ctx.beginPath();
       ctx.arc(chimp.radius, chimp.radius, chimp.radius, 0, 2 * Math.PI);
-      ctx.fill(); //uncomment to get the yellow ball back
+      //ctx.fill(); //uncomment to get the yellow ball back
       ctx.restore();
     };
 
