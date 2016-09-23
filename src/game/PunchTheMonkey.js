@@ -30,6 +30,7 @@ export class PunchTheMonkey {
 
     const chimp = {
       speed: 300,
+      lockMovement: false,
       x: canvas.width * 0.5,
       y: canvas.height * 0.5,
       vx: 1,
@@ -45,16 +46,24 @@ export class PunchTheMonkey {
       },
 
       move() {
-        if (chimp.x < chimp.radius || chimp.x + chimp.radius > canvas.width) {
-          chimp.vx = -chimp.vx;
-        }
-        if (chimp.y < chimp.radius || chimp.y + chimp.radius > canvas.height) {
-          chimp.vy = -chimp.vy;
+        if(!chimp.lockMovement){
+          if (chimp.x < chimp.radius || chimp.x + chimp.radius > canvas.width) {
+            chimp.vx = -chimp.vx;
+          }
+          if (chimp.y < chimp.radius || chimp.y + chimp.radius > canvas.height) {
+            chimp.vy = -chimp.vy;
+          }
         }
       },
       
       spinOnHit() {
         //TODO add 'spin' animation when player 'punches', (clicks) on monkey
+        chimp.lockMovement = true;
+        chimp.x = 200;
+        chimp.vx = 0;
+        chimp.y = 200;
+        chimp.vy = 0;
+        //chimp.lockMovement = false;
       },
       
       jumpOnMiss() {
@@ -70,24 +79,25 @@ export class PunchTheMonkey {
       // 'win' when score === 10
       punched(){
         canvas.addEventListener('click', (event) => {
-          // here is logic to determine if player has scored a hit, or if missed the chimp
+            // here is logic to determine if player has scored a hit, or if missed the chimp
           if(event){
             if ((chimp.x+chimp.radius) > event.x && (chimp.x - chimp.radius) < event.x) {
               if ((chimp.y+chimp.radius) > event.y && (chimp.y - chimp.radius) < event.y) {
+                chimp.lockMovement === true;
                 window.console.log('ouch!');
                 player_data.score += 1;
                 chimp.spinOnHit();
                 // for testing of score change
-                window.window.console.log('score: ' + player_data.score);
+                window.console.log('score: ' + player_data.score);
               }
             } else {
               window.console.log('You lost a life, better be more careful!');
               player_data.lives -= 1;
               chimp.jumpOnMiss();
               // for testing of lives change
-              window.window.console.log('lives: ' + player_data.lives);
+              window.console.log('lives: ' + player_data.lives);
             }
-            
+              
           }
           
           // event ? window.window.console.log('chimp object x = '+ chimp.x + '\n' + 'chimp object y =' + chimp.y + '\n' +
@@ -97,10 +107,10 @@ export class PunchTheMonkey {
       }
     };
     chimp.punched();
-    chimp.reset();
+    //chimp.reset();
 
     const update = deltaTime => {
-      if (chimp.vx === 0 && chimp.vy === 0) {
+      if (chimp.vx === 0 && chimp.vy === 0 && chimp.lockMovement === false) {
         chimp.reset();
       }
       chimp.x += chimp.vx * deltaTime * chimp.speed;
