@@ -13,7 +13,6 @@ export class PunchTheMonkey {
     this.canvas.height = 480; // 480 orig
     document.body.insertBefore(this.canvas, document.body.firstChild);
     this.ctx = this.canvas.getContext('2d');
-    // adding player data here
     
   }
 
@@ -22,11 +21,12 @@ export class PunchTheMonkey {
     const chimp_base = new Image();
     chimp_base.src = './chimp_base.1.png';
     
+    // adding player data here
     const player_data = {
       'score': 0,
       'lives': 3
     };
-    
+
 
     const chimp = {
       speed: 300,
@@ -40,8 +40,8 @@ export class PunchTheMonkey {
       radius: 42, // adjusted from 60 to better fit chimp base sprite
       
       reset() {
-        chimp.vx = -1 + Math.random() * 1;
-        chimp.vy = -1 + Math.random() * 1;
+        chimp.vx = -1 + 0.5;// + Math.random() * 1;
+        chimp.vy = -1 + 0.5;// + Math.random() * 1;
       },
 
       move() {
@@ -53,15 +53,16 @@ export class PunchTheMonkey {
         }
       },
       
-      spinOnHit(){
+      spinOnHit() {
         //TODO add 'spin' animation when player 'punches', (clicks) on monkey
       },
       
-      jumpOnMiss(){
+      jumpOnMiss() {
         // TODO add monkey jump 'anaimation' when player misses the monkey on click
         // also needs to watch for if y < radius, then different animation
         
         // just a start
+        // NEED to use/better understand ctx.translate(x,y)
         chimp.y = chimp.y - 100;
       },
       
@@ -73,23 +74,23 @@ export class PunchTheMonkey {
           if(event){
             if ((chimp.x+chimp.radius) > event.x && (chimp.x - chimp.radius) < event.x) {
               if ((chimp.y+chimp.radius) > event.y && (chimp.y - chimp.radius) < event.y) {
-                alert('ouch!');
+                window.console.log('ouch!');
                 player_data.score += 1;
                 chimp.spinOnHit();
                 // for testing of score change
-                window.console.log('score: ' + player_data.score);
+                window.window.console.log('score: ' + player_data.score);
               }
             } else {
-              alert('You lost a life, better be more careful!');
+              window.console.log('You lost a life, better be more careful!');
               player_data.lives -= 1;
               chimp.jumpOnMiss();
               // for testing of lives change
-              window.console.log('lives: ' + player_data.lives);
+              window.window.console.log('lives: ' + player_data.lives);
             }
             
           }
           
-          // event ? window.console.log('chimp object x = '+ chimp.x + '\n' + 'chimp object y =' + chimp.y + '\n' +
+          // event ? window.window.console.log('chimp object x = '+ chimp.x + '\n' + 'chimp object y =' + chimp.y + '\n' +
           //               'event object x = '+ event.x + '\n' + 'event object y =' + event.y)
           // : null;
         });
@@ -112,7 +113,7 @@ export class PunchTheMonkey {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.translate(chimp.x - chimp.radius, chimp.y - chimp.radius);
-      // TODO need to resuze chimp -much- smaller, better align it to the center of the chimp object
+      // TODO need to resize chimp -much- smaller, better align it to the center of the chimp object
       ctx.fillStyle = chimp.color;
       ctx.drawImage(chimp.image, 0, 0);
       ctx.beginPath();
