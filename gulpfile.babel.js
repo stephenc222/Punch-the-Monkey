@@ -18,7 +18,7 @@ import es from 'event-stream';
 
 const log = util.log;
 const env = process.env.NODE_ENV;
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.PORT || 8080;
 const BUILD_DIR = 'build';
 const PUBLIC_DIR = 'public'; // changed PUBLIC_HTML to just PUBLIC
 const DIST_DIR = 'dist';
@@ -29,7 +29,9 @@ function copyStatic(sourceDir, destDir) {
 }
 
 function devServer() {
-  const devServerInjection = `webpack-dev-server/client?http://localhost:${PORT}`;
+  //const devServerInjection = `webpack-dev-server/client?http://localhost:${PORT}`;
+  const devServerInjection = `webpack-dev-server/client?http://punch-the-monkey-steveguy255.c9users.io:8080`;
+  // (thumbs up)
   webpackConfig.entry.unshift(devServerInjection);
   const compiler = webpack(webpackConfig);
   const options = {
