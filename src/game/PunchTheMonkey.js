@@ -29,7 +29,7 @@ export class PunchTheMonkey {
 
 
     const chimp = {
-      speed: 300,
+      speed: 100,
       lockMovement: false,
       x: canvas.width * 0.5,
       y: canvas.height * 0.5,
@@ -59,10 +59,66 @@ export class PunchTheMonkey {
       spinOnHit() {
         //TODO add 'spin' animation when player 'punches', (clicks) on monkey
         chimp.lockMovement = true;
-        chimp.x = 200;
+        
+        chimp.x = chimp.x;
         chimp.vx = 0;
-        chimp.y = 200;
+        chimp.y = chimp.y;
         chimp.vy = 0;
+        
+        
+        let TO_RADIANS = Math.PI/180;
+        let t = 90;
+        let z;
+        ctx.save();
+        clearInterval(car);
+        
+        function drawRotatedImage(image, x, y, angle) { 
+          // save the current co-ordinate system 
+          // before we screw with it
+        //  z = setInterval( () => {
+          if(angle <= 360){
+            //ctx.save(); 
+            // move to the middle of where we want to draw our image
+            //ctx.translate(x, y);
+            // rotate around that point, converting our 
+            // angle from degrees to radians 
+            ctx.rotate(angle * TO_RADIANS);
+            
+            // draw it up and to the left by half the width
+            // and height of the image 
+            ctx.drawImage(image, -(chimp.radius/2), -(chimp.radius/2));
+             // window.console.log('angle is: ' + angle);
+            // and restore the co-ords to how they were when we began
+           // ctx.restore()
+          } else {
+              //clearInterval(this);
+          }
+       //   }, 1000);
+          
+        }
+        // so this is rotating when the "t + x" x's value changes just now...
+        for (t = 0; t <= 360; t+=10){
+          if (t<=360){
+            drawRotatedImage(chimp.image,chimp.x,chimp.y,t);
+          } else {
+            clearInterval(z);
+          }
+        }
+        ctx.restore();
+        
+        /*
+        ctx.save();
+        ctx.translate(200,200);
+        // here start setInterval
+        ctx.rotate(90*Math.PI/180);
+        ctx.drawImage(chimp.image, -(chimp.radius/2), -(chimp.radius/2));
+        ctx.restore();
+        // returns back to caller after 3 seconds
+        */
+        chimp.lockMovement = false;
+        
+        car = setInterval(() => { update(dt); render(); }, rate);
+        return; 
         //chimp.lockMovement = false;
       },
       
@@ -89,6 +145,7 @@ export class PunchTheMonkey {
                 chimp.spinOnHit();
                 // for testing of score change
                 window.console.log('score: ' + player_data.score);
+                return;
               }
             } else {
               window.console.log('You lost a life, better be more careful!');
@@ -135,7 +192,7 @@ export class PunchTheMonkey {
     const DESIRED_FPS = 30;
     const rate = 1000 / DESIRED_FPS;
     const dt = rate * 0.001;
-    setInterval(() => { update(dt); render(); }, rate);
+    let car = setInterval(() => { update(dt); render(); }, rate);
   }
 }
 
