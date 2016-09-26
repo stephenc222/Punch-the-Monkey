@@ -9,6 +9,8 @@ export class PunchTheMonkey {
   _init() {
     document.title = 'Punch the Monkey';
     this.canvas = document.createElement('canvas');
+    // the line below changes the cursor to a fist
+    // this.canvas.style.cursor = 'url(./fist.png), auto';
     this.canvas.width = 640; // 640 originally
     this.canvas.height = 480; // 480 orig
     document.body.insertBefore(this.canvas, document.body.firstChild);
