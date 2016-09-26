@@ -13,6 +13,7 @@ module.exports = {
     },
     "rules": {
         "no-unused-vars": 1,
+        "no-debugger": 0,
         "indent": [
             "error",
             2
