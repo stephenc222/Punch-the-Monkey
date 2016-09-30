@@ -33,7 +33,8 @@ export class PunchTheMonkey {
     const chimp = {
       speed: 150, // 300
       angle: 0,
-      lockMovement: false,
+      wasHit: false,
+      wasMissed: false,
       x: canvas.width * 0.5,
       y: canvas.height * 0.5,
       vx: 1,
@@ -52,7 +53,7 @@ export class PunchTheMonkey {
       },
 
       move() {
-        if(!chimp.lockMovement){
+        if(!chimp.wasHit){
           if (chimp.x < chimp.radius || chimp.x + chimp.radius > canvas.width) {
             chimp.vx = -chimp.vx;
           }
@@ -65,7 +66,7 @@ export class PunchTheMonkey {
       spinOnHit() { // lose the param here too
         //TODO add 'spin' animation when player 'punches', (clicks) on monkey
         
-        chimp.lockMovement = true;
+        chimp.wasHit = true;
         // right is that a local variable in *this* function? ok!
         chimp.vx = 0;
         chimp.vy = 0;
@@ -75,7 +76,7 @@ export class PunchTheMonkey {
         // SPIN_TIME would be a var somewhere that is in milliseconds
         // so 1000 if you want to spin for a second 500 if you want to spin for half a second etc...
         // it can be, no harm in it
-        setTimeout(function () { chimp.lockMovement = false; }, SPIN_TIME);
+        setTimeout(function () { chimp.wasHit = false; }, SPIN_TIME);
       
       },
       
@@ -85,7 +86,18 @@ export class PunchTheMonkey {
         
         // just a start
         // NEED to use/better understand ctx.translate(x,y)
-       // chimp.y = chimp.y - 100;
+        // chimp.y = chimp.y - 100;
+        chimp.wasMissed = true;
+        // right is that a local variable in *this* function? ok!
+        chimp.vx = 0;
+        chimp.vy = 0;
+        window.console.log(rate);
+        const JUMP_TIME = 2000; // it won't change, make it const
+        // if that's easier for you to understand
+        // SPIN_TIME would be a var somewhere that is in milliseconds
+        // so 1000 if you want to spin for a second 500 if you want to spin for half a second etc...
+        // it can be, no harm in it
+        setTimeout(function () { chimp.wasMissed = false; chimp.reset(); }, JUMP_TIME);
       },
       
       // TODO final code to write for this event handler --> go to 'lose' when lives === 0 and go to
@@ -101,7 +113,7 @@ export class PunchTheMonkey {
                 player_data.score += 1;
                 // for testing of score change
                 window.console.log('score: ' + player_data.score);
-                return;
+               // return;
               }
             } else {
               window.console.log('You lost a life, better be more careful!');
@@ -109,6 +121,7 @@ export class PunchTheMonkey {
               chimp.jumpOnMiss();
               // for testing of lives change
               window.console.log('lives: ' + player_data.lives);
+             // return;
             }
               
           }
@@ -124,12 +137,12 @@ export class PunchTheMonkey {
       const SPIN_SPEED = 360-360*deltaTime/4;// timing issue here, crudely hacked
       // haha it spins around, finally!
       //window.console.log('at start angle is: ' + chimp.angle);
-      if (chimp.lockMovement) {
+      if (chimp.wasHit) {
         
         let d = new Date().getMilliseconds();
         chimp.angle += SPIN_SPEED*deltaTime;// * 1.01;
-        window.console.log('angle' +chimp.angle);
-        window.console.log('time is: '+ d);
+       // window.console.log('angle' +chimp.angle);
+       // window.console.log('time is: '+ d);
         // we store the angle of the chimp in degrees, so 0 to 360 is a full circle
         // this ensures our angle value doesn't get out of hand
         if (chimp.angle > 360) {
@@ -137,9 +150,24 @@ export class PunchTheMonkey {
          // window.console.log('the chimp angle is: ' + chimp.angle);
         }
       }
+      
+      if (chimp.wasMissed) {
+        // TODO this is where the animation needs to jump up and down when miss monkey
+       // let d = new Date().getMilliseconds();
+       // window.console.log('vy before change: '+chimp.vy);
+     
+        // TODO 'test' function needs work to look more like a jumping motion
+        let test = function () {chimp.y -= 20*deltaTime;
+          chimp.vy -= -0.2;};
+        //window.console.log('y is ' +chimp.y);
+        //window.console.log('time is: '+ d);
+        setTimeout(test(),1000);
+        // we store the angle of the chimp in degrees, so 0 to 360 is a full circle
+        // this ensures our angle value doesn't get out of hand
+      }
    
      
-      if (chimp.vx === 0 && chimp.vy === 0 && !chimp.lockMovement) {
+      if (chimp.vx === 0 && chimp.vy === 0 && !chimp.wasHit && !chimp.wasMissed) {
         // TODO need to better figure out angle rotation timing
         chimp.reset();
       }
