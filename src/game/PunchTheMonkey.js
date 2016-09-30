@@ -21,7 +21,7 @@ export class PunchTheMonkey {
   _create() {
     const { ctx, canvas } = this;
     const chimp_base = new Image();
-    chimp_base.src = './chimp_base.1.png';
+    chimp_base.src = './chimp_base.png';
     
     // adding player data here
     const player_data = {
@@ -45,6 +45,8 @@ export class PunchTheMonkey {
       TO_RADIANS: Math.PI / 180,// adjusted from 60 to better fit chimp base sprite
       
       reset() {
+        // HACK added reset to chimp.angle to 0 radians
+        chimp.angle = 0;
         chimp.vx = -1 + 0.5;// + Math.random() * 1;
         chimp.vy = -1 + 0.5;// + Math.random() * 1;
       },
@@ -65,6 +67,9 @@ export class PunchTheMonkey {
         
         chimp.lockMovement = true;
         // right is that a local variable in *this* function? ok!
+        chimp.vx = 0;
+        chimp.vy = 0;
+        window.console.log(rate);
         const SPIN_TIME = 1000; // it won't change, make it const
         // if that's easier for you to understand
         // SPIN_TIME would be a var somewhere that is in milliseconds
@@ -80,7 +85,7 @@ export class PunchTheMonkey {
         
         // just a start
         // NEED to use/better understand ctx.translate(x,y)
-        chimp.y = chimp.y - 100;
+       // chimp.y = chimp.y - 100;
       },
       
       // TODO final code to write for this event handler --> go to 'lose' when lives === 0 and go to
@@ -116,29 +121,26 @@ export class PunchTheMonkey {
 
     const update = deltaTime => {
       
-      const SPIN_SPEED = 360; // 14 already felt too slow
+      const SPIN_SPEED = 360-360*deltaTime/4;// timing issue here, crudely hacked
       // haha it spins around, finally!
-      // NOTE --> the execution time of this log statement alone
-      // is enough to throw off the spinning of the monkey to prevent a full
-      // rotation
       //window.console.log('at start angle is: ' + chimp.angle);
       if (chimp.lockMovement) {
-        //chimp.vy = 0;
-        //chimp.vx = 0;
-        //let d = new Date().getMilliseconds();
-        chimp.angle += SPIN_SPEED * deltaTime * 1.01;
-        //window.console.log('time is: '+ d);
+        
+        let d = new Date().getMilliseconds();
+        chimp.angle += SPIN_SPEED*deltaTime;// * 1.01;
+        window.console.log('angle' +chimp.angle);
+        window.console.log('time is: '+ d);
         // we store the angle of the chimp in degrees, so 0 to 360 is a full circle
         // this ensures our angle value doesn't get out of hand
-        if (chimp.angle >= 360) {
+        if (chimp.angle > 360) {
           chimp.angle = 0;
-          //window.console.log('the chimp angle is: ' + chimp.angle);
+         // window.console.log('the chimp angle is: ' + chimp.angle);
         }
       }
-      //setTimeout(chimp.lockMovement = false, 4000);
-      
+   
      
-      if (chimp.vx === 0 && chimp.vy === 0) {
+      if (chimp.vx === 0 && chimp.vy === 0 && !chimp.lockMovement) {
+        // TODO need to better figure out angle rotation timing
         chimp.reset();
       }
       chimp.x += chimp.vx * deltaTime * chimp.speed;
@@ -146,22 +148,7 @@ export class PunchTheMonkey {
       chimp.move();
       
     };
-    // hey while we are on here, how do you go about debuging and setting breakpoints for this class?
-    // cause we have webpack doing stuff, so it's not so simple for straight forward debugging, right?
-    
-    // You just need to open up the source in your devtools, you should get a source-mapped version
-    // for setting breakpoints
-    // oh ok, leave these comments in for the moment!
-    // if you fail to hit a breakpoint, you can put a hard break by putting it in the code like
-    
-    //debugger; // will break at this point
-    // sure
-    // got it now, obviously I'll need to play with it more later
-    // if you save the file now,
-    
-    // lol whoops. the monkey is stuck
-    // it's like the check for how the monkey knows where the boundary of the canvas is
-    // gets thrown off on hit?
+
     
     const render = () => {
       ctx.fillStyle = 'lightgreen';
@@ -181,13 +168,12 @@ export class PunchTheMonkey {
       ctx.restore();
     };
 
-    const DESIRED_FPS = 30; //30;
+    const DESIRED_FPS = 30;//51; //30;
     const rate = 1000 / DESIRED_FPS;
     const dt = rate * 0.001;
-    let car = setInterval(() => { update(dt);
-      
-      
-      
+    window.console.log('rate is: '+ rate);
+    setInterval(() => { update(dt);
+
       render(); }, rate);
   }
 }
