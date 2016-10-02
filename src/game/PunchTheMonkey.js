@@ -1,3 +1,46 @@
+// Punch the Monkey Game
+
+export class StartGame {
+  constructor(){
+    this._init();
+    //this._create();
+  }  
+    
+  _init() {
+    document.title = 'Punch the Monkey';
+    this.canvas = document.createElement('canvas');
+    this.canvas.setAttribute('id', 'startScreen');
+    // the line below changes the cursor to a fist
+    // this.canvas.style.cursor = 'url(./fist.png), auto';
+    this.canvas.width = 640; // 640 originally
+    this.canvas.height = 480; // 480 orig
+    document.body.insertBefore(this.canvas, document.body.firstChild);
+    this.ctx = this.canvas.getContext('2d');
+    this.ctx.fillStyle = 'lightblue';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // writing of "Start Game" here 
+    // this.ctx.save();
+    this.ctx.font = 'bold 36px sans-serif';
+    this.ctx.fillStyle = 'black';
+    this.ctx.textBaseline = 'center';
+    this.ctx.save();
+    const text1 = 'Start Game';
+    this.ctx.fillText(text1, this.canvas.width/2-this.ctx.measureText(text1).width/2, this.canvas.height/2);
+    this.ctx.restore();
+    this.ctx.font = 'bold 18px sans-serif';
+    const text2 = 'click to begin';
+    //this.ctx.clearRect(16, 16, this.ctx.measureText(text1), 16);
+    this.ctx.fillText(text2, this.canvas.width/2-this.ctx.measureText(text2).width/2, this.canvas.height/2+30);
+
+    this.ctx.restore();
+    
+    return;
+  }
+  
+    
+  
+}
 
 export class PunchTheMonkey {
   constructor() {
@@ -9,6 +52,7 @@ export class PunchTheMonkey {
   _init() {
     document.title = 'Punch the Monkey';
     this.canvas = document.createElement('canvas');
+    this.canvas.setAttribute('id', 'game');
     // the line below changes the cursor to a fist
     // this.canvas.style.cursor = 'url(./fist.png), auto';
     this.canvas.width = 640; // 640 originally
@@ -31,7 +75,7 @@ export class PunchTheMonkey {
 
 
     const chimp = {
-      speed: 150, // 300
+      speed: 100, // 300
       angle: 0,
       wasHit: false,
       wasMissed: false,
@@ -48,8 +92,8 @@ export class PunchTheMonkey {
       reset() {
         // HACK added reset to chimp.angle to 0 radians
         chimp.angle = 0;
-        chimp.vx = -1 + 0.5;// + Math.random() * 1;
-        chimp.vy = -1 + 0.5;// + Math.random() * 1;
+        chimp.vx = -1;// + 0.5;// + Math.random() * 1;
+        chimp.vy = -1;// + 0.5;// + Math.random() * 1;
       },
 
       move() {
@@ -174,6 +218,7 @@ export class PunchTheMonkey {
       chimp.x += chimp.vx * deltaTime * chimp.speed;
       chimp.y += chimp.vy * deltaTime * chimp.speed;
       chimp.move();
+     
       
     };
 
@@ -193,6 +238,16 @@ export class PunchTheMonkey {
       ctx.arc(0, 0, chimp.radius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.drawImage(chimp.image, -chimp.radius, -chimp.radius);
+      ctx.restore();
+      
+      // added in visual for lives and score counters
+      ctx.save();
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillStyle = 'black';
+      ctx.textBaseline = 'top';
+      const text = `lives: ${player_data.lives | 0} score: ${player_data.score | 0}`;
+      ctx.clearRect(16, 16, ctx.measureText(text), 16);
+      ctx.fillText(text, 16, 450);
       ctx.restore();
     };
 
