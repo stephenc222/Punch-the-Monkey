@@ -42,7 +42,7 @@ export class StartGame {
   
 }
 
-export class changeScreen{
+class changeScreen{
       // removes current canvas element
   constructor(id){
     this._init(id);
@@ -54,12 +54,12 @@ export class changeScreen{
     //win('game');
     if(id === 'win'){
       window.console.log('win() called here');
-      window.console.log(win());
-       // win();
+      //window.console.log(win());
+      let winScreen = win();
     } else if(id === 'lose'){
       window.console.log('lose() called here');
-      window.console.log(lose());
-       // lose();
+      //window.console.log(lose());
+      let loseScreen = lose();
     }
     
     function win () {
@@ -75,15 +75,15 @@ export class changeScreen{
       canvas.setAttribute('id','win');
       // the line below changes the cursor to a fist
       // this.canvas.style.cursor = 'url(./fist.png), auto';
-      canvas.width = 640; // 640 originally
+      canvas.width = 641; // 640 originally
       canvas.height = 480; // 480 orig
       document.body.insertBefore(canvas, document.body.firstChild);
       canvas.ctx = canvas.getContext('2d');
-      canvas.ctx.fillStyle = 'lightorange';
+      canvas.ctx.fillStyle = 'orange';
       canvas.ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // writing of "Win Game" here 
-      // this.ctx.save();
+      canvas.ctx.save();
       canvas.ctx.font = 'bold 36px sans-serif';
       canvas.ctx.fillStyle = 'black';
       canvas.ctx.textBaseline = 'center';
@@ -92,11 +92,12 @@ export class changeScreen{
       canvas.ctx.fillText(text1, canvas.width/2-canvas.ctx.measureText(text1).width/2, canvas.height/2);
       canvas.ctx.restore();
       canvas.ctx.font = 'bold 18px sans-serif';
-      const text2 = 'anyone could do it - click refresh to reload';
+      const text2 = 'anyone could do it - click reload to play again';
       //this.ctx.clearRect(16, 16, this.ctx.measureText(text1), 16);
       canvas.ctx.fillText(text2, canvas.width/2-canvas.ctx.measureText(text2).width/2, canvas.height/2+30);
   
       canvas.ctx.restore();
+      return canvas;
     }
     function lose () {
       // TODO lose() adds canvas but it is blank
@@ -114,15 +115,15 @@ export class changeScreen{
       canvas.setAttribute('id','lose');
       // the line below changes the cursor to a fist
       // this.canvas.style.cursor = 'url(./fist.png), auto';
-      canvas.width = 640; // 640 originally
+      canvas.width = 641; // 640 originally
       canvas.height = 480; // 480 orig
       document.body.insertBefore(canvas, document.body.firstChild);
       canvas.ctx = canvas.getContext('2d');
-      canvas.ctx.fillStyle = 'lightpurple';
+      canvas.ctx.fillStyle = 'wheat';
       canvas.ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // writing of "lose Game" here 
-      // this.ctx.save();
+      canvas.ctx.save();
       canvas.ctx.font = 'bold 36px sans-serif';
       canvas.ctx.fillStyle = 'black';
       canvas.ctx.textBaseline = 'center';
@@ -131,13 +132,13 @@ export class changeScreen{
       canvas.ctx.fillText(text1, canvas.width/2-canvas.ctx.measureText(text1).width/2, canvas.height/2);
       canvas.ctx.restore();
       canvas.ctx.font = 'bold 18px sans-serif';
-      const text2 = 'who cares, its just a game';
+      const text2 = 'who cares, its just a game - click reload to play again';
       //this.ctx.clearRect(16, 16, this.ctx.measureText(text1), 16);
       canvas.ctx.fillText(text2, canvas.width/2-canvas.ctx.measureText(text2).width/2, canvas.height/2+30);
   
       canvas.ctx.restore();
-      
-      window.console.log(canvas);
+      return canvas;
+     // window.console.log(canvas);
     }
     //changeScreen(id,winOrLoseScreenOption);
   }
@@ -189,7 +190,7 @@ export class PunchTheMonkey {
     this.canvas = document.createElement('canvas');
     this.canvas.setAttribute('id', 'game');
     // the line below changes the cursor to a fist
-    // this.canvas.style.cursor = 'url(./fist.png), auto';
+    this.canvas.style.cursor = 'url(./fist.png), auto';
     this.canvas.width = 640; // 640 originally
     this.canvas.height = 480; // 480 orig
     document.body.insertBefore(this.canvas, document.body.firstChild);
@@ -220,7 +221,7 @@ export class PunchTheMonkey {
       vx: 1,
       vy: -1,
       // TODO color prop is temporary, just to help with sprite alignment
-      color: 'yellow',
+      //color: 'yellow',
       image: chimp_base,
       radius: 45,
       TO_RADIANS: Math.PI / 180,// adjusted from 60 to better fit chimp base sprite
