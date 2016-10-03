@@ -312,6 +312,7 @@ export class PunchTheMonkey {
             if ((chimp.x+chimp.radius) > event.x && (chimp.x - chimp.radius) < event.x) {
               if ((chimp.y+chimp.radius) > event.y && (chimp.y - chimp.radius) < event.y) {
                 player_data.score += 1;
+                chimp.speed += 15;
                 chimp.spinOnHit();
                 //window.console.log('ouch!');
                 // for testing of score change
