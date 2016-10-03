@@ -42,13 +42,148 @@ export class StartGame {
   
 }
 
+export class changeScreen{
+      // removes current canvas element
+  constructor(id){
+    this._init(id);
+  }
+  //console.log(this);
+  //changeScreen(id, winOrLoseScreenOption);
+  _init(id){
+    //window.console.log('this id inside lose: ' + id);
+    //win('game');
+    if(id === 'win'){
+      window.console.log('win() called here');
+      window.console.log(win());
+       // win();
+    } else if(id === 'lose'){
+      window.console.log('lose() called here');
+      window.console.log(lose());
+       // lose();
+    }
+    
+    function win () {
+      
+      window.console.log('this id arg inside lose: ' + id);
+      
+      const gameNode = document.getElementById('game');
+      //window.console.log(gameNode);
+      gameNode.parentNode.removeChild(gameNode);
+      // TODO win() adds canvas, but it is blank
+      const canvas = document.createElement('canvas');
+      window.console.log(canvas);
+      canvas.setAttribute('id','win');
+      // the line below changes the cursor to a fist
+      // this.canvas.style.cursor = 'url(./fist.png), auto';
+      canvas.width = 640; // 640 originally
+      canvas.height = 480; // 480 orig
+      document.body.insertBefore(canvas, document.body.firstChild);
+      canvas.ctx = canvas.getContext('2d');
+      canvas.ctx.fillStyle = 'lightorange';
+      canvas.ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // writing of "Win Game" here 
+      // this.ctx.save();
+      canvas.ctx.font = 'bold 36px sans-serif';
+      canvas.ctx.fillStyle = 'black';
+      canvas.ctx.textBaseline = 'center';
+      canvas.ctx.save();
+      const text1 = 'So you beat my Game?';
+      canvas.ctx.fillText(text1, canvas.width/2-canvas.ctx.measureText(text1).width/2, canvas.height/2);
+      canvas.ctx.restore();
+      canvas.ctx.font = 'bold 18px sans-serif';
+      const text2 = 'anyone could do it - click refresh to reload';
+      //this.ctx.clearRect(16, 16, this.ctx.measureText(text1), 16);
+      canvas.ctx.fillText(text2, canvas.width/2-canvas.ctx.measureText(text2).width/2, canvas.height/2+30);
+  
+      canvas.ctx.restore();
+    }
+    function lose () {
+      // TODO lose() adds canvas but it is blank
+      window.console.log('this id arg inside lose: ' + id);
+      
+      
+      const gameNode = document.getElementById('game');
+      gameNode.parentNode.removeChild(gameNode);
+      
+
+      const canvas = document.createElement('canvas');
+      window.console.log(canvas);
+      //window.console.log(this.canvas);
+      //window.console.log(this.document.getElementsByTagName('canvas'));
+      canvas.setAttribute('id','lose');
+      // the line below changes the cursor to a fist
+      // this.canvas.style.cursor = 'url(./fist.png), auto';
+      canvas.width = 640; // 640 originally
+      canvas.height = 480; // 480 orig
+      document.body.insertBefore(canvas, document.body.firstChild);
+      canvas.ctx = canvas.getContext('2d');
+      canvas.ctx.fillStyle = 'lightpurple';
+      canvas.ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // writing of "lose Game" here 
+      // this.ctx.save();
+      canvas.ctx.font = 'bold 36px sans-serif';
+      canvas.ctx.fillStyle = 'black';
+      canvas.ctx.textBaseline = 'center';
+      canvas.ctx.save();
+      const text1 = 'So you lost?';
+      canvas.ctx.fillText(text1, canvas.width/2-canvas.ctx.measureText(text1).width/2, canvas.height/2);
+      canvas.ctx.restore();
+      canvas.ctx.font = 'bold 18px sans-serif';
+      const text2 = 'who cares, its just a game';
+      //this.ctx.clearRect(16, 16, this.ctx.measureText(text1), 16);
+      canvas.ctx.fillText(text2, canvas.width/2-canvas.ctx.measureText(text2).width/2, canvas.height/2+30);
+  
+      canvas.ctx.restore();
+      
+      window.console.log(canvas);
+    }
+    //changeScreen(id,winOrLoseScreenOption);
+  }
+  
+  
+}
+     // const gameNode = document.getElementById(id);
+     // gameNode.parentNode.removeChild(gameNode);
+    
+      // how my screen changes base on win or lose
+      /*
+      this.canvas = document.createElement('canvas');
+      this.canvas.setAttribute('id',toString(WinOrLoseScreen.toString()));
+      // the line below changes the cursor to a fist
+      // this.canvas.style.cursor = 'url(./fist.png), auto';
+      this.canvas.width = 640; // 640 originally
+      this.canvas.height = 480; // 480 orig
+      document.body.insertBefore(this.canvas, document.body.firstChild);
+      this.ctx = this.canvas.getContext('2d');
+      this.ctx.fillStyle = 'lightblue';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // writing of "Start Game" here 
+      // this.ctx.save();
+      this.ctx.font = 'bold 36px sans-serif';
+      this.ctx.fillStyle = 'black';
+      this.ctx.textBaseline = 'center';
+      this.ctx.save();
+      const text1 = 'Start Game';
+      this.ctx.fillText(text1, this.canvas.width/2-this.ctx.measureText(text1).width/2, this.canvas.height/2);
+      this.ctx.restore();
+      this.ctx.font = 'bold 18px sans-serif';
+      const text2 = 'click to begin';
+      //this.ctx.clearRect(16, 16, this.ctx.measureText(text1), 16);
+      this.ctx.fillText(text2, this.canvas.width/2-this.ctx.measureText(text2).width/2, this.canvas.height/2+30);
+  
+      this.ctx.restore();
+      */
+
+
 export class PunchTheMonkey {
   constructor() {
     this._init();
     this._create();
   }
   
-
   _init() {
     document.title = 'Punch the Monkey';
     this.canvas = document.createElement('canvas');
@@ -73,7 +208,8 @@ export class PunchTheMonkey {
       'lives': 3
     };
 
-
+    // change screen function here
+    
     const chimp = {
       speed: 100, // 300
       angle: 0,
@@ -111,10 +247,21 @@ export class PunchTheMonkey {
         //TODO add 'spin' animation when player 'punches', (clicks) on monkey
         
         chimp.wasHit = true;
+        window.console.log('monkey was hit so score: '+player_data.score);
+        // gameLoop for win closed successfully here
+        if(player_data.score === 10){  
+          clearInterval(gameLoop);
+          window.console.log('game loop closed for WIN here*');
+          const lose = new changeScreen('win');
+          window.console.log('WIN is instantiated here...');
+          window.console.log(lose);
+          return lose;
+        }
+        //player_data.score === 10 && changeScreen('win','win');
         // right is that a local variable in *this* function? ok!
         chimp.vx = 0;
         chimp.vy = 0;
-        window.console.log(rate);
+        //window.console.log(rate);
         const SPIN_TIME = 1000; // it won't change, make it const
         // if that's easier for you to understand
         // SPIN_TIME would be a var somewhere that is in milliseconds
@@ -132,10 +279,21 @@ export class PunchTheMonkey {
         // NEED to use/better understand ctx.translate(x,y)
         // chimp.y = chimp.y - 100;
         chimp.wasMissed = true;
-        // right is that a local variable in *this* function? ok!
+        window.console.log('monkey was missed so lives: '+player_data.lives);
+                // gameLoop for lose closed successfully here
+        if(player_data.lives === 0){ 
+          clearInterval(gameLoop);
+          window.console.log('game loop closed for LOSE *here*');
+          const lose = new changeScreen('lose');
+          // but not right now...
+          window.console.log('LOST is instantiated here...');
+          window.console.log(lose);
+          return lose;
+          
+        }
         chimp.vx = 0;
         chimp.vy = 0;
-        window.console.log(rate);
+        //window.console.log(rate);
         const JUMP_TIME = 2000; // it won't change, make it const
         // if that's easier for you to understand
         // SPIN_TIME would be a var somewhere that is in milliseconds
@@ -152,19 +310,19 @@ export class PunchTheMonkey {
           if(event){
             if ((chimp.x+chimp.radius) > event.x && (chimp.x - chimp.radius) < event.x) {
               if ((chimp.y+chimp.radius) > event.y && (chimp.y - chimp.radius) < event.y) {
-                chimp.spinOnHit();
-                window.console.log('ouch!');
                 player_data.score += 1;
+                chimp.spinOnHit();
+                //window.console.log('ouch!');
                 // for testing of score change
-                window.console.log('score: ' + player_data.score);
+               // window.console.log('score: ' + player_data.score);
                // return;
               }
             } else {
-              window.console.log('You lost a life, better be more careful!');
+              //window.console.log('You lost a life, better be more careful!');
               player_data.lives -= 1;
               chimp.jumpOnMiss();
               // for testing of lives change
-              window.console.log('lives: ' + player_data.lives);
+             // window.console.log('lives: ' + player_data.lives);
              // return;
             }
               
@@ -255,9 +413,10 @@ export class PunchTheMonkey {
     const rate = 1000 / DESIRED_FPS;
     const dt = rate * 0.001;
     window.console.log('rate is: '+ rate);
-    setInterval(() => { update(dt);
+    let gameLoop = setInterval(() => { update(dt);
 
       render(); }, rate);
+    
   }
 }
 
