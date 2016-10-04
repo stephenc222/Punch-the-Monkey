@@ -11,7 +11,7 @@ export class StartGame {
     this.canvas = document.createElement('canvas');
     this.canvas.setAttribute('id', 'startScreen');
     // the line below changes the cursor to a fist
-    // this.canvas.style.cursor = 'url(./fist.png), auto';
+    //this.canvas.style.cursor = 'url(./fist.png), auto';
     this.canvas.width = 640; // 640 originally
     this.canvas.height = 480; // 480 orig
     document.body.insertBefore(this.canvas, document.body.firstChild);
@@ -67,14 +67,11 @@ class changeScreen{
       window.console.log('this id arg inside lose: ' + id);
       
       const gameNode = document.getElementById('game');
-      //window.console.log(gameNode);
       gameNode.parentNode.removeChild(gameNode);
-      // TODO win() adds canvas, but it is blank
+
       const canvas = document.createElement('canvas');
       window.console.log(canvas);
       canvas.setAttribute('id','win');
-      // the line below changes the cursor to a fist
-      // this.canvas.style.cursor = 'url(./fist.png), auto';
       canvas.width = 641; // 640 originally
       canvas.height = 480; // 480 orig
       document.body.insertBefore(canvas, document.body.firstChild);
@@ -99,19 +96,17 @@ class changeScreen{
       canvas.ctx.restore();
       return canvas;
     }
+    
     function lose () {
-      // TODO lose() adds canvas but it is blank
+
       window.console.log('this id arg inside lose: ' + id);
       
       
       const gameNode = document.getElementById('game');
       gameNode.parentNode.removeChild(gameNode);
       
-
       const canvas = document.createElement('canvas');
       window.console.log(canvas);
-      //window.console.log(this.canvas);
-      //window.console.log(this.document.getElementsByTagName('canvas'));
       canvas.setAttribute('id','lose');
       // the line below changes the cursor to a fist
       // this.canvas.style.cursor = 'url(./fist.png), auto';
@@ -209,7 +204,6 @@ export class PunchTheMonkey {
       'lives': 3
     };
 
-    // change screen function here
     
     const chimp = {
       speed: 100, // 300
@@ -253,10 +247,10 @@ export class PunchTheMonkey {
         if(player_data.score === 10){  
           clearInterval(gameLoop);
           window.console.log('game loop closed for WIN here*');
-          const lose = new changeScreen('win');
+          const win = new changeScreen('win');
           window.console.log('WIN is instantiated here...');
-          window.console.log(lose);
-          return lose;
+          window.console.log(win);
+          return win;
         }
         //player_data.score === 10 && changeScreen('win','win');
         // right is that a local variable in *this* function? ok!
